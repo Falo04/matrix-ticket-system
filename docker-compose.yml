@@ -1,0 +1,33 @@
+services:
+  postgres:
+    restart: unless-stopped
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data/
+    env_file: [ galvyn.env ]
+    build:
+      dockerfile: ./build/dockerfiles/postgres.Dockerfile
+
+  webserver:
+    restart: unless-stopped
+    depends_on: [ postgres ]
+    env_file: [ galvyn.env ]
+    environment:
+      - RUST_LOG=${RUST_LOG-info,webserver=debug,galvyn=debug}
+    build:
+      dockerfile: ./build/dockerfiles/webserver.Dockerfile
+
+  nginx:
+    restart: unless-stopped
+    env_file: [ galvyn.env ]
+    depends_on: [ webserver ]
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./data/conf/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    build:
+      dockerfile: ./build/dockerfiles/nginx.Dockerfile
+
+volumes:
+  postgres-vol:

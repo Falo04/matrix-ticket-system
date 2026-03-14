@@ -1,0 +1,35 @@
+[package]
+name = "webserver"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# Error handling
+thiserror = { version = "~2" }
+anyhow = { version = "~1" }
+
+# Webframework
+galvyn = { version = "~0.2", features = ["contrib"] }
+tower = { version = "~0.5", features = ["limit"] }
+tower-http = { version = "~0.6", features = ["trace", "limit"] }
+
+# Cli
+clap = { version = "~4", features = ["derive"] }
+
+# Async
+tokio = { version = "~1", features = ["full"] }
+futures-lite = { version = "~2" }
+
+# Logging
+tracing = { version = "~0.1" } # Base API
+tracing-subscriber = { version = "~0.3" }
+tracing-forest = { version = "~0.3" }
+
+# Serialization
+serde = { version = "~1", features = ["derive"] }
+
+# Datatypes
+uuid = { version = "~1", features = ["serde", "v4"] }
+url = { version = "~2", features = ["serde"] }
+time = { version = "~0.3" }

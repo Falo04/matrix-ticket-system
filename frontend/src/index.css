@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+    .toast-message {
+        @apply dark:!bg-zinc-900;
+        @apply dark:!text-zinc-50;
+    }
+
+    .toast-message > .Toastify__close-button {
+        @apply dark:!text-zinc-50;
+    }
+}

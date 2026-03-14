@@ -1,0 +1,462 @@
+[Migration]
+Hash = "434208641201181087"
+Initial = true
+Replaces = []
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "galvynsettings"
+
+[[Migration.Operations.Fields]]
+Name = "uuid"
+Type = "uuid"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-settings-0.2.0/src/model.rs"
+Line = 10
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "key"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "unique"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-settings-0.2.0/src/model.rs"
+Line = 13
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "value"
+Type = "binary"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-settings-0.2.0/src/model.rs"
+Line = 15
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "galvynoauthclient"
+
+[[Migration.Operations.Fields]]
+Name = "uuid"
+Type = "uuid"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-oauth-0.2.0/src/models.rs"
+Line = 10
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "name"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-oauth-0.2.0/src/models.rs"
+Line = 13
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "secret"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-oauth-0.2.0/src/models.rs"
+Line = 16
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "redirect_uri"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-oauth-0.2.0/src/models.rs"
+Line = 19
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "totpkey"
+
+[[Migration.Operations.Fields]]
+Name = "pk"
+Type = "int64"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "auto_increment"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 43
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "label"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 49
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "secret"
+Type = "binary"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 32
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 52
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "webauthnkey"
+
+[[Migration.Operations.Fields]]
+Name = "pk"
+Type = "int64"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "auto_increment"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 58
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "label"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 64
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "key"
+Type = "binary"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 66
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "localaccount"
+
+[[Migration.Operations.Fields]]
+Name = "pk"
+Type = "int64"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "auto_increment"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 32
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "password"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 1024
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 35
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "account"
+
+[[Migration.Operations.Fields]]
+Name = "pk"
+Type = "int64"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "auto_increment"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 12
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "id"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "unique"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 15
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "oidcaccount"
+
+[[Migration.Operations.Fields]]
+Name = "pk"
+Type = "int64"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "auto_increment"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 21
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "id"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 24
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "galvynsession"
+
+[[Migration.Operations.Fields]]
+Name = "id"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-core-0.2.0/src/session.rs"
+Line = 40
+Column = 5
+
+[[Migration.Operations.Fields]]
+Name = "expires_at"
+Type = "datetime"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-core-0.2.0/src/session.rs"
+Line = 41
+Column = 5
+
+[[Migration.Operations.Fields]]
+Name = "data"
+Type = "binary"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-core-0.2.0/src/session.rs"
+Line = 42
+Column = 5
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "webauthnkey"
+
+[Migration.Operations.Field]
+Name = "local_account"
+Type = "int64"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "foreign_key"
+
+[Migration.Operations.Field.Annotations.Value]
+TableName = "localaccount"
+ColumnName = "pk"
+OnDelete = "Cascade"
+OnUpdate = "Cascade"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 61
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "localaccount"
+
+[Migration.Operations.Field]
+Name = "account"
+Type = "int64"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "foreign_key"
+
+[Migration.Operations.Field.Annotations.Value]
+TableName = "account"
+ColumnName = "pk"
+OnDelete = "Restrict"
+OnUpdate = "Restrict"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 37
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "totpkey"
+
+[Migration.Operations.Field]
+Name = "local_account"
+Type = "int64"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "foreign_key"
+
+[Migration.Operations.Field.Annotations.Value]
+TableName = "localaccount"
+ColumnName = "pk"
+OnDelete = "Cascade"
+OnUpdate = "Cascade"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 46
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "oidcaccount"
+
+[Migration.Operations.Field]
+Name = "account"
+Type = "int64"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "foreign_key"
+
+[Migration.Operations.Field.Annotations.Value]
+TableName = "account"
+ColumnName = "pk"
+OnDelete = "Restrict"
+OnUpdate = "Restrict"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "/usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/galvyn-contrib-auth-0.2.0/src/models.rs"
+Line = 26
+Column = 9
