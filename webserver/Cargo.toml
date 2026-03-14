@@ -10,7 +10,7 @@ thiserror = { version = "~2" }
 anyhow = { version = "~1" }
 
 # Webframework
-galvyn = { version = "~0.2", features = ["contrib"] }
+galvyn = { version = "~0.2", features = ["contrib-settings", "rorm-postgres-only", "rorm-cli", "rorm-time", "rorm-uuid", "rorm-schemars"] }
 tower = { version = "~0.5", features = ["limit"] }
 tower-http = { version = "~0.6", features = ["trace", "limit"] }
 
@@ -33,3 +33,6 @@ serde = { version = "~1", features = ["derive"] }
 uuid = { version = "~1", features = ["serde", "v4"] }
 url = { version = "~2", features = ["serde"] }
 time = { version = "~0.3" }
+
+# Account authorization
+openidconnect = { version = "~4", features = ["accept-rfc3339-timestamps", "timing-resistant-secret-traits"] }

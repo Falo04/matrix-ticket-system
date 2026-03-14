@@ -32,6 +32,7 @@ use tracing_subscriber::util::SubscriberInitExt;
 use crate::cli::Cli;
 use crate::cli::Command;
 use crate::config::DB;
+use crate::modules::oidc::OpenIdConnect;
 
 pub mod cli;
 pub mod config;
@@ -73,10 +74,11 @@ async fn start() -> Result<(), Box<dyn Error>> {
         .register_module::<Database>(DatabaseSetup::Custom(DatabaseConfiguration::new(
             DB.clone(),
         )))
-        .register_module::<SettingsStore>(Default::default())
-        .register_module::<<modules::settings::Settings as ApplicationSettingsExt>::Module>(
-            Default::default(),
-        )
+        //.register_module::<SettingsStore>(Default::default())
+        //.register_module::<<modules::settings::Settings as ApplicationSettingsExt>::Module>(
+        //    Default::default(),
+        //)
+        .register_module::<OpenIdConnect>(Default::default())
         .init_modules()
         .await?
         .add_routes(http::initialize_routes())

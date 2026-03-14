@@ -2,5 +2,6 @@
 target/
 galvyn.env
 
+data/ca-certificates
 *.crt
 *.key
