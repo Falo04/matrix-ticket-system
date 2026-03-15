@@ -9,27 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MenuRouteImport } from './routes/_menu'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as MenuSettingsIndexRouteImport } from './routes/_menu/settings/index'
 
-export interface FileRoutesByFullPath {}
-export interface FileRoutesByTo {}
+const MenuRoute = MenuRouteImport.update({
+  id: '/_menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuSettingsIndexRoute = MenuSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => MenuRoute,
+} as any)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/settings/': typeof MenuSettingsIndexRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/settings': typeof MenuSettingsIndexRoute
+}
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_menu': typeof MenuRouteWithChildren
+  '/_menu/settings/': typeof MenuSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: never
+  fullPaths: '/' | '/settings/'
   fileRoutesByTo: FileRoutesByTo
-  to: never
-  id: '__root__'
+  to: '/' | '/settings'
+  id: '__root__' | '/' | '/_menu' | '/_menu/settings/'
   fileRoutesById: FileRoutesById
 }
-export interface RootRouteChildren {}
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  MenuRoute: typeof MenuRouteWithChildren
 }
 
-const rootRouteChildren: RootRouteChildren = {}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/_menu': {
+      id: '/_menu'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_menu/settings/': {
+      id: '/_menu/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof MenuSettingsIndexRouteImport
+      parentRoute: typeof MenuRoute
+    }
+  }
+}
+
+interface MenuRouteChildren {
+  MenuSettingsIndexRoute: typeof MenuSettingsIndexRoute
+}
+
+const MenuRouteChildren: MenuRouteChildren = {
+  MenuSettingsIndexRoute: MenuSettingsIndexRoute,
+}
+
+const MenuRouteWithChildren = MenuRoute._addFileChildren(MenuRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  MenuRoute: MenuRouteWithChildren,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()

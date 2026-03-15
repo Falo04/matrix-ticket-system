@@ -10,7 +10,7 @@ const config = tsEslint.config(
     ...tsEslint.configs.recommended,
     jsdoc.configs["flat/recommended-typescript"],
     {
-        ignores: ["src/api/generated/**", "src/components/base/**", "eslint.config.js", "src/index.css"],
+        ignores: ["src/api/generated/**", "src/components/ui/**", "eslint.config.js", "src/index.css"],
     },
     {
         languageOptions: {
