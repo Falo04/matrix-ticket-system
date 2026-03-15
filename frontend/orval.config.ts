@@ -3,21 +3,22 @@ import { defineConfig } from "orval";
 export default defineConfig({
     api: {
         input: {
-            target: "http://webserver:8080/openapi.json",
+            target: "http://webserver:8080/docs/openapi.json",
         },
         output: {
             mode: "single",
-            workspace: "src/api/generated/",
+            workspace: "./src/api/generated",
             target: "./index.ts",
-            schemas: "./models",
             clean: true,
             client: "fetch",
             prettier: true,
-            fileExtension: ".gen.ts",
-            baseUrl: {
-                getBaseUrlFromSpecification: true,
-                variables: {
-                    environment: "api.dev",
+            override: {
+                fetch: {
+                    includeHttpResponseReturnType: false,
+                },
+                mutator: {
+                    path: "../custom-fetch.ts",
+                    name: "customFetch",
                 },
             },
         },

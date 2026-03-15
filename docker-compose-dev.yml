@@ -14,8 +14,8 @@ services:
   frontend:
     restart: unless-stopped
     volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
+      - ./frontend:/app
+      - /app/node_modules
     env_file: [ .env ]
     user: "${UID}:${GID}"
     build:
