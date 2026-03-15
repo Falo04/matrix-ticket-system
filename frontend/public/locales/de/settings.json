@@ -1,0 +1,21 @@
+{
+    "button": {
+        "logout": "Abmelden",
+        "update": "Einstellungen aktualisieren"
+    },
+    "heading": {
+        "description": "\u00c4ndere hier deine Einstellungen",
+        "title": "Einstellungen"
+    },
+    "label": {
+        "appearance": "Darstellung ausw\u00e4hlen",
+        "dark": "Dunkler Modus",
+        "de": "\ud83c\udde9\ud83c\uddea Deutsch",
+        "en": "\ud83c\uddfa\ud83c\uddf8 Englisch",
+        "language": "Sprache ausw\u00e4hlen",
+        "light": "Heller Modus"
+    },
+    "toast": {
+        "success": "Einstellung erfolgreich aktualisiert"
+    }
+}

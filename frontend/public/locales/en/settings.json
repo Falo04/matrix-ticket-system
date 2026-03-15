@@ -1,0 +1,21 @@
+{
+    "button": {
+        "logout": "Logout",
+        "update": "Update Settings"
+    },
+    "heading": {
+        "description": "Change your settings here",
+        "title": "Settings"
+    },
+    "label": {
+        "appearance": "Select Appearance",
+        "dark": "Dark Mode",
+        "de": "\ud83c\udde9\ud83c\uddea German",
+        "en": "\ud83c\uddfa\ud83c\uddf8 English",
+        "language": "Select Language",
+        "light": "Light Mode"
+    },
+    "toast": {
+        "success": "Settings successfully updated"
+    }
+}
