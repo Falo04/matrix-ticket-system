@@ -36,3 +36,6 @@ time = { version = "~0.3" }
 
 # Account authorization
 openidconnect = { version = "~4", features = ["accept-rfc3339-timestamps", "timing-resistant-secret-traits"] }
+
+# Matrix
+matrix-sdk = { version = "0.16.0", default-features = false, features = ["bundled-sqlite", "e2e-encryption", "automatic-room-key-forwarding", "rustls-tls"] }
