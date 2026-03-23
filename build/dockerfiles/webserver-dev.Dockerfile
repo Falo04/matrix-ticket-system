@@ -1,4 +1,4 @@
-ARG RUST_VERSION=1.91.1
+ARG RUST_VERSION=1.93
 
 FROM rust:${RUST_VERSION}-slim-trixie AS buildrust
 
@@ -10,6 +10,7 @@ apt-get install -y openssl libssl-dev pkg-config
 EOF
 
 RUN --mount=type=bind,source=webserver/,target=webserver/ \
+    --mount=type=bind,source=libs/,target=libs/ \
     --mount=type=bind,source=Cargo.toml,target=Cargo.toml \
     --mount=type=bind,source=Cargo.lock,target=Cargo.lock \
     --mount=type=cache,target=/app/target/ \

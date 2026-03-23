@@ -1,5 +1,6 @@
 //! Webserver
 
+#![recursion_limit = "256"]
 #![deny(clippy::unwrap_used, clippy::expect_used, unsafe_code)]
 #![warn(
     missing_docs,
@@ -16,8 +17,6 @@ use std::net::SocketAddr;
 use clap::Parser;
 use galvyn::Galvyn;
 use galvyn::GalvynSetup;
-use galvyn::contrib::settings::ApplicationSettingsExt;
-use galvyn::contrib::settings::SettingsStore;
 use galvyn::core::DatabaseSetup;
 use galvyn::core::re_exports::rorm;
 use galvyn::rorm::Database;
@@ -32,6 +31,7 @@ use tracing_subscriber::util::SubscriberInitExt;
 use crate::cli::Cli;
 use crate::cli::Command;
 use crate::config::DB;
+use crate::modules::matrix::GlobalMatrix;
 use crate::modules::oidc::OpenIdConnect;
 
 pub mod cli;
@@ -79,6 +79,7 @@ async fn start() -> Result<(), Box<dyn Error>> {
         //    Default::default(),
         //)
         .register_module::<OpenIdConnect>(Default::default())
+        .register_module::<GlobalMatrix>(Default::default())
         .init_modules()
         .await?
         .add_routes(http::initialize_routes())

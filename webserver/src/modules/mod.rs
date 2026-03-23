@@ -1,4 +1,5 @@
 //! The place for galvyn modules
 
-pub mod settings;
+pub mod matrix;
 pub mod oidc;
+pub mod settings;

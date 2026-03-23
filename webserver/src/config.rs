@@ -1,11 +1,15 @@
 //! Configuration based on environment variables
 
+use std::path::PathBuf;
 use std::sync::LazyLock;
 
 use galvyn::core::stuff::env::EnvError;
 use galvyn::core::stuff::env::EnvVar;
 use galvyn::rorm::DatabaseDriver;
-use openidconnect::{ClientId, ClientSecret, IssuerUrl, RedirectUrl};
+use openidconnect::ClientId;
+use openidconnect::ClientSecret;
+use openidconnect::IssuerUrl;
+use openidconnect::RedirectUrl;
 use url::Url;
 
 /// Load all environment variables declared in this module
@@ -23,6 +27,9 @@ pub fn load_env() -> Result<(), Vec<&'static EnvError>> {
         OIDC_CLIENT_ID.load(),
         OIDC_CLIENT_SECRET.load(),
         OIDC_REDIRECT_URL.load(),
+        MATRIX_USERNAME.load(),
+        MATRIX_SERVER_URL.load(),
+        MATRIX_USER_PASSWORD.load(),
     ] {
         errors.extend(result.err());
     }
@@ -84,3 +91,16 @@ pub static OIDC_CLIENT_SECRET: EnvVar<ClientSecret> = EnvVar::required("OIDC_CLI
 ///
 /// This variable is required and specifies the URL to which the oidc client should return
 pub static OIDC_REDIRECT_URL: EnvVar<RedirectUrl> = EnvVar::required("OIDC_REDIRECT_URL");
+
+/// Matrix user name
+pub static MATRIX_USERNAME: EnvVar = EnvVar::required("MATRIX_USERNAME");
+
+/// Matrix user password
+pub static MATRIX_USER_PASSWORD: EnvVar = EnvVar::required("MATRIX_USER_PASSWORD");
+
+/// Matrix homeserver url
+pub static MATRIX_SERVER_URL: EnvVar = EnvVar::required("MATRIX_SERVER_URL");
+
+/// Matrix store path
+pub static MATRIX_STORE_PATH: EnvVar<PathBuf> =
+    EnvVar::optional("MATRIX_STORE_PATH", || PathBuf::from("/tmp/data"));
