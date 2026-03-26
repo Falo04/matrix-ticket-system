@@ -104,3 +104,12 @@ pub static MATRIX_SERVER_URL: EnvVar = EnvVar::required("MATRIX_SERVER_URL");
 /// Matrix store path
 pub static MATRIX_STORE_PATH: EnvVar<PathBuf> =
     EnvVar::optional("MATRIX_STORE_PATH", || PathBuf::from("/tmp/data"));
+
+/// The endpoint to export opentelemetry traces to
+///
+/// This variable is defined in the opentelemetry specifications and used implicitly by our dependencies.
+/// It is declared explicitly here to be easier to discover and change its default.
+pub static OTEL_EXPORTER_OTLP_ENDPOINT: EnvVar =
+    EnvVar::optional("OTEL_EXPORTER_OTLP_ENDPOINT", || {
+        "http://jaeger-dev:4317".to_string()
+    });

@@ -22,6 +22,7 @@ use galvyn::core::re_exports::rorm;
 use galvyn::rorm::Database;
 use galvyn::rorm::DatabaseConfiguration;
 use galvyn::rorm::config::DatabaseConfig;
+use galvyn::tracing::opentelemetry::OpenTelemetrySetup;
 use tracing::level_filters::LevelFilter;
 use tracing_subscriber::EnvFilter;
 use tracing_subscriber::Layer;
@@ -31,6 +32,7 @@ use tracing_subscriber::util::SubscriberInitExt;
 use crate::cli::Cli;
 use crate::cli::Command;
 use crate::config::DB;
+use crate::config::OTEL_EXPORTER_OTLP_ENDPOINT;
 use crate::modules::matrix::GlobalMatrix;
 use crate::modules::oidc::OpenIdConnect;
 
@@ -52,6 +54,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
     tracing_subscriber::registry()
         .with(EnvFilter::try_from_default_env().unwrap_or(EnvFilter::new("INFO")))
         .with(tracing_forest::ForestLayer::default().with_filter(LevelFilter::DEBUG))
+        .with(
+            OpenTelemetrySetup {
+                service_name: "matrix-ticket-system".to_string(),
+                exporter_otlp_endpoint: OTEL_EXPORTER_OTLP_ENDPOINT.clone(),
+            }
+            .opentelemetry_layer()?,
+        )
         .init();
 
     galvyn::panic_hook::set_panic_hook();
