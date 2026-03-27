@@ -1,0 +1,164 @@
+[Migration]
+Hash = "5396462228691063725"
+Initial = false
+Dependency = 1
+Replaces = []
+
+[[Migration.Operations]]
+Type = "CreateModel"
+Name = "tickets"
+
+[[Migration.Operations.Fields]]
+Name = "uuid"
+Type = "uuid"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "primary_key"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 16
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "timestamp"
+Type = "datetime"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 22
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "status"
+Type = "choices"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "choices"
+Value = [
+    "Open",
+    "Closed",
+]
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 24
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "heading"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 255
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 26
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "body"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 1024
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 28
+Column = 9
+
+[[Migration.Operations.Fields]]
+Name = "response"
+Type = "varchar"
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "max_length"
+Value = 1024
+
+[[Migration.Operations.Fields.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Fields.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 30
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "tickets"
+
+[Migration.Operations.Field]
+Name = "created_by"
+Type = "uuid"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "foreign_key"
+
+[Migration.Operations.Field.Annotations.Value]
+TableName = "account"
+ColumnName = "uuid"
+OnDelete = "Restrict"
+OnUpdate = "Restrict"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 18
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "tickets"
+
+[Migration.Operations.Field]
+Name = "assigned_to"
+Type = "uuid"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "foreign_key"
+
+[Migration.Operations.Field.Annotations.Value]
+TableName = "account"
+ColumnName = "uuid"
+OnDelete = "Restrict"
+OnUpdate = "Restrict"
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 20
+Column = 9
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "account"
+
+[Migration.Operations.Field]
+Name = "matrix_id"
+Type = "varchar"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "max_length"
+Value = 255
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "webserver/src/models/account/db.rs"
+Line = 12
+Column = 9

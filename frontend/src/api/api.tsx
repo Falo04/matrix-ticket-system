@@ -1,13 +1,11 @@
 import { ERROR_STORE } from "src/context/error-context";
 import { ResponseError } from "src/api/custom-fetch";
-import { getMe, logout } from "src/api/generated";
-
-/** Hyphen separated uuid */
-export type UUID = string;
+import { getMe, logout, setMatrixId } from "src/api/generated";
 
 export const Api = {
     account: {
         getMe: () => handleError(getMe()),
+        updateMatrixId: (matrix_id: string) => handleError(setMatrixId({ matrix_id })),
     },
     oidc: {
         logout: () => handleError(logout()),

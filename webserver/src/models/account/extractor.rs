@@ -1,8 +1,9 @@
+//! Extractor for the account model.
+use galvyn::core::Module;
 use galvyn::core::re_exports::axum::extract::FromRequestParts;
 use galvyn::core::re_exports::axum::http::request::Parts;
 use galvyn::core::session::Session;
 use galvyn::core::stuff::api_error::ApiError;
-use galvyn::core::Module;
 use galvyn::rorm::Database;
 use uuid::Uuid;
 
@@ -36,7 +37,7 @@ where
             .ok_or(ApiError::unauthorized("Missing account uuid in session"))?;
 
         let Some(account) =
-            Account::query_by_uuid(Database::global(), &AccountUuid(account_uuid)).await?
+            Account::get_by_uuid(Database::global(), &AccountUuid(account_uuid)).await?
         else {
             session.remove_value(SESSION_KEY).await?;
             session.save().await?;
@@ -49,5 +50,6 @@ where
     }
 }
 
+/// A struct that represents a cached version of an `Account`.
 #[derive(Clone)]
 struct CachedAccount(Account);

@@ -19,13 +19,34 @@ export interface ApiErrorResponse {
 }
 
 /**
+ * @maxLength 1024
+ */
+export type MaxStr1024 = string;
+
+/**
  * @maxLength 255
  */
 export type MaxStr255 = string;
 
+/**
+ * Request to set the matrix user id of an account.
+ */
+export interface SetMatrixIdRequest {
+    /** The matrix user id */
+    matrix_id: MaxStr1024;
+}
+
+/**
+ * A simple account representation.
+ */
 export interface SimpleAccount {
+    /** The account's display name. */
     display_name: MaxStr255;
+    /** The account's email address. */
     email: MaxStr255;
+    /** The account's matrix user id. */
+    matrix_id?: MaxStr1024 | null;
+    /** The account's UUID. */
     uuid: AccountUuid;
 }
 
@@ -103,6 +124,19 @@ export const getMe = async (options?: RequestInit): Promise<SimpleAccount> => {
     return customFetch<SimpleAccount>(getGetMeUrl(), {
         ...options,
         method: "GET",
+    });
+};
+
+export const getSetMatrixIdUrl = () => {
+    return `/api/frontend/v1/account/me/set-matrix-id`;
+};
+
+export const setMatrixId = async (setMatrixIdRequest: SetMatrixIdRequest, options?: RequestInit): Promise<void> => {
+    return customFetch<void>(getSetMatrixIdUrl(), {
+        ...options,
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...options?.headers },
+        body: JSON.stringify(setMatrixIdRequest),
     });
 };
 
