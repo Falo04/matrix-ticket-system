@@ -3,18 +3,13 @@
 //! It manages the login flow, exchanging authorization codes for access tokens and ID tokens.
 use std::time::Duration;
 
+use galvyn::core::InitError;
+use galvyn::core::Module;
+use galvyn::core::PreInitError;
 use galvyn::core::re_exports::serde::Deserialize;
 use galvyn::core::re_exports::serde::Serialize;
 use galvyn::core::stuff::api_error::ApiError;
 use galvyn::core::stuff::api_error::ApiResult;
-use galvyn::core::InitError;
-use galvyn::core::Module;
-use galvyn::core::PreInitError;
-use openidconnect::core::CoreAuthenticationFlow;
-use openidconnect::core::CoreClient;
-use openidconnect::core::CoreIdTokenClaims;
-use openidconnect::core::CoreProviderMetadata;
-use openidconnect::reqwest;
 use openidconnect::AccessTokenHash;
 use openidconnect::AuthorizationCode;
 use openidconnect::ClientId;
@@ -34,6 +29,11 @@ use openidconnect::RedirectUrl;
 use openidconnect::RequestTokenError;
 use openidconnect::Scope;
 use openidconnect::TokenResponse;
+use openidconnect::core::CoreAuthenticationFlow;
+use openidconnect::core::CoreClient;
+use openidconnect::core::CoreIdTokenClaims;
+use openidconnect::core::CoreProviderMetadata;
+use openidconnect::reqwest;
 use tracing::error;
 use tracing::warn;
 use url::Url;
@@ -56,6 +56,7 @@ pub struct OpenIdConnect {
     oidc_client: OidcClient,
 }
 
+/// Specific type for the OIDC client.
 type OidcClient = CoreClient<
     EndpointSet, // Auth URL
     EndpointNotSet,
@@ -168,9 +169,9 @@ impl OpenIdConnect {
                     .signing_key(&id_token_verifier)
                     .map_err(ApiError::map_server_error("Failed to retrieve signing key"))?,
             )
-                .map_err(ApiError::map_server_error(
-                    "Failed to recreate access token signature",
-                ))?;
+            .map_err(ApiError::map_server_error(
+                "Failed to recreate access token signature",
+            ))?;
             if actual_access_token_hash != *expected_access_token_hash {
                 return Err(ApiError::unauthorized("Invalid access token"));
             }
@@ -185,6 +186,7 @@ impl Module for OpenIdConnect {
     type PreInit = Self;
 
     async fn pre_init(_setup: Self::Setup) -> Result<Self::PreInit, PreInitError> {
+        #[allow(clippy::expect_used)]
         let http_client = reqwest::Client::builder()
             .timeout(Duration::from_secs(60))
             .build()
@@ -248,11 +250,11 @@ impl OidcConfig {
         let mut result = Err(DiscoveryError::Other(String::new()));
         for _ in 0..N {
             result = self.discover(http_client).await;
-            if let Err(DiscoveryError::Request(HttpClientError::Reqwest(error))) = &result {
-                if error.is_timeout() {
-                    warn!("Timed out fetching oidc discovery, trying again...");
-                    continue;
-                }
+            if let Err(DiscoveryError::Request(HttpClientError::Reqwest(error))) = &result
+                && error.is_timeout()
+            {
+                warn!("Timed out fetching oidc discovery, trying again...");
+                continue;
             }
             return result;
         }
@@ -273,7 +275,7 @@ impl OidcConfig {
             self.client_id.clone(),
             Some(self.client_secret.clone()),
         )
-            .set_redirect_uri(self.redirect_url.clone());
+        .set_redirect_uri(self.redirect_url.clone());
 
         // Check the token url to be set
         let token_uri = oidc_client

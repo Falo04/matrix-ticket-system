@@ -1,20 +1,25 @@
+//! This module contains the HTTP handlers for the OIDC-related endpoints.
+use galvyn::core::Module;
 use galvyn::core::re_exports::axum::extract::Query;
 use galvyn::core::re_exports::axum::response::Redirect;
 use galvyn::core::re_exports::serde_json;
 use galvyn::core::session::Session;
 use galvyn::core::stuff::api_error::ApiError;
 use galvyn::core::stuff::api_error::ApiResult;
-use galvyn::core::Module;
 use galvyn::get;
 use galvyn::post;
-use galvyn::rorm::fields::types::MaxStr;
 use galvyn::rorm::Database;
+use galvyn::rorm::fields::types::MaxStr;
 use tracing::trace;
 
 use crate::http::handler_frontend::oidc::schema::FinishOidcLoginRequest;
-use crate::models::account::{Account, InsertAccount};
+use crate::models::account::Account;
+use crate::models::account::InsertAccount;
 use crate::modules::oidc::OidcRequestState;
 use crate::modules::oidc::OpenIdConnect;
+
+/// The key used to store the session state in the session.
+const SESSION_KEY: &str = "begin_oidc_login";
 
 /// Begin to log in with the oidc provider.
 #[get("/begin-login")]
@@ -72,20 +77,23 @@ pub async fn finish_oidc_login(
     let email =
         MaxStr::new(email.to_string()).map_err(ApiError::map_server_error("Email is too long"))?;
 
-    let existing_account = Account::query_after_oidc(&mut tx, &issuer, &subject).await?;
+    let existing_account = Account::get_by_oidc(&mut tx, &issuer, &subject).await?;
     let account = if let Some(account) = existing_account {
         account.update(&mut tx, display_name).await?;
-        Account::query_by_uuid(&mut tx, &account.uuid)
+        Account::get_by_uuid(&mut tx, &account.uuid)
             .await?
             .ok_or(ApiError::bad_request("Account does not exist."))?
     } else {
-        let account = Account::create(&mut tx, InsertAccount {
-            display_name,
-            email,
-            issuer,
-            subject,
-        }).await?;
-        account
+        Account::create(
+            &mut tx,
+            InsertAccount {
+                display_name,
+                email,
+                issuer,
+                subject,
+            },
+        )
+        .await?
     };
 
     tx.commit().await?;
@@ -94,8 +102,6 @@ pub async fn finish_oidc_login(
 
     Ok(Redirect::temporary("/"))
 }
-
-const SESSION_KEY: &str = "begin_oidc_login";
 
 /// Log out the current user.
 #[post("/logout")]

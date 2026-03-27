@@ -33,7 +33,7 @@ use crate::cli::Cli;
 use crate::cli::Command;
 use crate::config::DB;
 use crate::config::OTEL_EXPORTER_OTLP_ENDPOINT;
-use crate::modules::matrix::GlobalMatrix;
+use crate::modules::matrix::MatrixClient;
 use crate::modules::oidc::OpenIdConnect;
 
 pub mod cli;
@@ -77,6 +77,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Register the modules and start the server.
 async fn start() -> Result<(), Box<dyn Error>> {
     #[expect(clippy::unit_arg)]
     Galvyn::builder(GalvynSetup::default())
@@ -88,7 +89,7 @@ async fn start() -> Result<(), Box<dyn Error>> {
         //    Default::default(),
         //)
         .register_module::<OpenIdConnect>(Default::default())
-        .register_module::<GlobalMatrix>(Default::default())
+        .register_module::<MatrixClient>(Default::default())
         .init_modules()
         .await?
         .add_routes(http::initialize_routes())
@@ -98,6 +99,7 @@ async fn start() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Asynchronous function to generate database migration files in a specified directory during debug builds.
 #[cfg(debug_assertions)]
 async fn make_migrations(migration_dir: String) -> Result<(), Box<dyn Error>> {
     use std::io::Write;
@@ -123,6 +125,7 @@ async fn make_migrations(migration_dir: String) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Asynchronous function to migrate the database to the latest version.
 async fn migrate(migration_dir: String) -> Result<(), Box<dyn Error>> {
     rorm::cli::migrate::run_migrate_custom(
         DatabaseConfig {

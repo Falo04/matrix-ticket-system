@@ -14,6 +14,7 @@ use galvyn::core::re_exports::axum::response::Response;
 
 use crate::models::account::Account;
 
+/// Middleware for checking if the user is authenticated.
 #[derive(Copy, Clone, Debug)]
 pub struct AuthRequiredLayer;
 
