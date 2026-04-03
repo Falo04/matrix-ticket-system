@@ -7,6 +7,9 @@ members = [
 
 exclude = ["libs/sqlx-sqlite"]
 
+[workspace.dependencies]
+utility-macros = { path = "libs/utility-macros" }
+
 [workspace.lints.rust]
 unsafe_code = "forbid"
 

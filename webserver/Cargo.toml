@@ -40,3 +40,6 @@ openidconnect = { version = "~4", features = ["accept-rfc3339-timestamps", "timi
 # Matrix
 matrix-sdk = { version = "~0.16", default-features = false, features = ["bundled-sqlite", "e2e-encryption", "automatic-room-key-forwarding", "rustls-tls", "markdown"] }
 regex = "1.12.3"
+
+# Libs
+utility-macros = { workspace = true }

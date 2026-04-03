@@ -13,12 +13,13 @@ use galvyn::rorm::and;
 use galvyn::rorm::conditions::Condition;
 use galvyn::rorm::db::Executor;
 use galvyn::rorm::fields::types::MaxStr;
-use galvyn::rorm::prelude::ForeignModel;
 use tracing::instrument;
 use tracing::warn;
+use utility_macros::BusinessModelUuid;
 use uuid::Uuid;
 
 use crate::models::account::db::AccountModel;
+use crate::utils::bm_uuid::BusinessModelUuid;
 
 /// Domain representation of an account used across handlers and services.
 #[derive(Clone, Debug)]
@@ -38,20 +39,9 @@ pub struct Account {
 }
 
 /// Wrapper type to give stronger typing to account identifiers.
-#[derive(Debug, Clone, Copy, Deserialize, Serialize, JsonSchema)]
+#[derive(Debug, Clone, Copy, BusinessModelUuid, Deserialize, Serialize, JsonSchema)]
+#[bm_uuid(model = "AccountModel")]
 pub struct AccountUuid(Uuid);
-
-impl AccountUuid {
-    /// Returns the inner UUID value.
-    pub fn get_inner(&self) -> Uuid {
-        self.0
-    }
-
-    /// Creates a new `AccountUuid` from `ForeignModel<AccountModel>`
-    pub fn new_from_model(value: ForeignModel<AccountModel>) -> AccountUuid {
-        AccountUuid(value.0)
-    }
-}
 
 /// Data for inserting a new account.
 #[derive(Clone, Debug)]

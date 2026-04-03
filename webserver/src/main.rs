@@ -41,6 +41,7 @@ pub mod config;
 pub mod http;
 pub mod models;
 pub mod modules;
+mod utils;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {

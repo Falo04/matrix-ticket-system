@@ -1,5 +1,4 @@
 //! Database model for tickets.
-use galvyn::rorm::DbEnum;
 use galvyn::rorm::Model;
 use galvyn::rorm::fields::types::MaxStr;
 use galvyn::rorm::prelude::ForeignModel;
@@ -7,6 +6,7 @@ use time::OffsetDateTime;
 use uuid::Uuid;
 
 use crate::models::account::db::AccountModel;
+use crate::models::tickets::TicketStatus;
 
 /// A ticket model.
 #[derive(Debug, Model)]
@@ -29,15 +29,6 @@ pub struct TicketModel {
     pub body: MaxStr<1024>,
     /// The response to the ticket.
     pub response: MaxStr<1024>,
-}
-
-/// The status of a ticket.
-#[derive(Debug, Clone, DbEnum)]
-pub enum TicketStatus {
-    /// The ticket is open.
-    Open,
-    /// The ticket is in progress.
-    InProgress,
-    /// The ticket is closed.
-    Closed,
+    /// The timestamp of the ticket closure.
+    pub closed_at: Option<OffsetDateTime>,
 }

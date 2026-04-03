@@ -1,0 +1,21 @@
+[package]
+name = "utility-macros"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+# syn builds rust syntax trees from strings or tokenstream
+syn = { version = "~2", features = ["full", "visit-mut"] }
+# quote provides a utility-macros to write rust code with template variables which then produces a tokenstream
+quote = { version = "~1" }
+# a higher level wrapper for rust's proc-utility-macros which is used by syn and quote
+proc-macro2 = { version = "~1" }
+# for simple parsing of attributes
+darling = { version = "~0.20" }
+serde = { version = "1.0.228", features = ["derive"] }
+
+[lints]
+workspace = true

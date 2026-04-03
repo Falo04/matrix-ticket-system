@@ -1,0 +1,70 @@
+[Migration]
+Hash = "17856260069096239936"
+Initial = false
+Dependency = 2
+Replaces = []
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "tickets"
+
+[Migration.Operations.Field]
+Name = "closed_at"
+Type = "datetime"
+Annotations = []
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 33
+Column = 9
+
+[[Migration.Operations]]
+Type = "DeleteField"
+Model = "account"
+Name = "matrix_id"
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "account"
+
+[Migration.Operations.Field]
+Name = "matrix_id"
+Type = "varchar"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "max_length"
+Value = 1024
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "webserver/src/models/account/db.rs"
+Line = 14
+Column = 9
+
+[[Migration.Operations]]
+Type = "DeleteField"
+Model = "tickets"
+Name = "status"
+
+[[Migration.Operations]]
+Type = "CreateField"
+Model = "tickets"
+
+[Migration.Operations.Field]
+Name = "status"
+Type = "choices"
+
+[[Migration.Operations.Field.Annotations]]
+Type = "choices"
+Value = [
+    "Open",
+    "InProgress",
+    "Closed",
+]
+
+[[Migration.Operations.Field.Annotations]]
+Type = "not_null"
+
+[Migration.Operations.Field.SourceDefinedAt]
+File = "webserver/src/models/tickets/db.rs"
+Line = 25
+Column = 9
