@@ -4,7 +4,7 @@ use galvyn::openapi::OpenapiRouterExt;
 
 mod handler;
 mod impls;
-mod schema;
+pub mod schema;
 
 /// Initializes all account-related routes
 pub fn initialize() -> GalvynRouter {

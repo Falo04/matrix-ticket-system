@@ -19,22 +19,14 @@ export interface ApiErrorResponse {
 }
 
 /**
- * @maxLength 1024
- */
-export type MaxStr1024 = string;
-
-/**
  * @maxLength 255
  */
 export type MaxStr255 = string;
 
 /**
- * Request to set the matrix user id of an account.
+ * @maxLength 1024
  */
-export interface SetMatrixIdRequest {
-    /** The matrix user id */
-    matrix_id: MaxStr1024;
-}
+export type MaxStr1024 = string;
 
 /**
  * A simple account representation.
@@ -50,8 +42,74 @@ export interface SimpleAccount {
     uuid: AccountUuid;
 }
 
+/**
+ * The status of a ticket.
+ */
+export const TicketStatus = { Open: "Open", InProgress: "InProgress", Closed: "Closed" } as const;
+export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus];
+
+export type SchemaDateTime = string;
+
+/**
+ * A wrapper around a ticket UUID.
+ */
+export type TicketUuid = string;
+
+export interface SimpleTicket {
+    /** The account that the ticket is assigned to. */
+    assigned_to?: SimpleAccount | null;
+    /** The body of the ticket. */
+    body: MaxStr1024;
+    /** The account that created the ticket. */
+    created_by: SimpleAccount;
+    /** The title of the ticket. */
+    heading: MaxStr255;
+    /** The response to the ticket. */
+    response: MaxStr1024;
+    /** The status of the ticket. */
+    status: TicketStatus;
+    /** The timestamp of the ticket creation. */
+    timestamp: SchemaDateTime;
+    /** The ticket's UUID. */
+    uuid: TicketUuid;
+}
+
+/**
+ * A single field which is an array.
+
+## Rust Usage
+
+If you want to return an `ApiJson<Vec<T>>` from your handler, please use `ApiJson<List<T>>` instead.
+
+It simply wraps the vector into a struct with a single field to ensure the json returned from a handler is always an object.
+ */
+export interface ListForSimpleTicket {
+    list: SimpleTicket[];
+}
+
+/**
+ * Request to set the matrix user id of an account.
+ */
+export interface SetMatrixIdRequest {
+    /** The matrix user id */
+    matrix_id: MaxStr1024;
+}
+
+/**
+ * Request to set the status of a ticket.
+ */
+export interface SetTicketStatusRequest {
+    status: TicketStatus;
+}
+
 export type FinishOidcLoginParams = {
+    /**
+     * The authorization code received from the OIDC provider.
+     */
     code?: string;
+    /**
+     * The CSRF token received from the OIDC provider.
+     */
     state?: string;
 };
 
@@ -137,6 +195,34 @@ export const setMatrixId = async (setMatrixIdRequest: SetMatrixIdRequest, option
         method: "POST",
         headers: { "Content-Type": "application/json", ...options?.headers },
         body: JSON.stringify(setMatrixIdRequest),
+    });
+};
+
+export const getGetTicketsUrl = () => {
+    return `/api/frontend/v1/tickets/all`;
+};
+
+export const getTickets = async (options?: RequestInit): Promise<ListForSimpleTicket> => {
+    return customFetch<ListForSimpleTicket>(getGetTicketsUrl(), {
+        ...options,
+        method: "GET",
+    });
+};
+
+export const getUpdateStatusUrl = (ticketUuid: string) => {
+    return `/api/frontend/v1/tickets/update-status/${ticketUuid}`;
+};
+
+export const updateStatus = async (
+    ticketUuid: string,
+    setTicketStatusRequest: SetTicketStatusRequest,
+    options?: RequestInit,
+): Promise<void> => {
+    return customFetch<void>(getUpdateStatusUrl(ticketUuid), {
+        ...options,
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...options?.headers },
+        body: JSON.stringify(setTicketStatusRequest),
     });
 };
 

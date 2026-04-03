@@ -1,6 +1,6 @@
 import { ERROR_STORE } from "src/context/error-context";
 import { ResponseError } from "src/api/custom-fetch";
-import { getMe, logout, setMatrixId } from "src/api/generated";
+import { getMe, getTickets, logout, setMatrixId, TicketStatus, TicketUuid, updateStatus } from "src/api/generated";
 
 export const Api = {
     account: {
@@ -9,6 +9,10 @@ export const Api = {
     },
     oidc: {
         logout: () => handleError(logout()),
+    },
+    tickets: {
+        getAll: () => handleError(getTickets()),
+        setStatus: (ticketUuid: TicketUuid, status: TicketStatus) => handleError(updateStatus(ticketUuid, { status })),
     },
 };
 
